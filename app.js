@@ -33,7 +33,28 @@ karticky.forEach((kart) => {
 })
 
 
-// nalezeny par se zablokuje, ale nezustane obrazkem nahoru, ale otoci se dolu, nelze na nej kliknout, ale ja chci, aby byl obrazkem nahoru :(
+//novy kousek kodu od Alex
+// funkce k určení, zda je prvek mapy spárován nebo ne
+const isPair = (element1, element2) => {
+    return element1.querySelector('img').src === element2.querySelector('img').src;
+};
+// funkce pro uzamčení spárovaných prvků a překlopení zbytku
+const otaceni = () => {
+    if (seznamek.length === 2 && isPair(seznamek[0], seznamek[1])) {
+        seznamek.forEach((item) => {
+            item.classList.remove('otocena');
+            item.removeEventListener('click', selectKarticka); // odeberte obslužnou rutinu události click
+        });
+    } else {
+        seznamek.forEach((item) => {
+            item.classList.add('otocena');
+        });
+    }
+}
+
+
+
+/* nalezeny par se zablokuje, ale nezustane obrazkem nahoru, ale otoci se dolu, nelze na nej kliknout, ale ja chci, aby byl obrazkem nahoru :(
 const otaceni = () => {
         seznamek.forEach((item) => {
             if (seznamek.length === 2 && seznamek[0].querySelector('img').src === seznamek[1].querySelector('img').src) {
@@ -41,13 +62,36 @@ const otaceni = () => {
                 item.setAttribute('disabled','')
             } else { 
                 item.classList.add('otocena') }
-            })}
+            })} */
      
 
 // timer pro funkci otaceni na 2s
 let timerId = null
 const timer = () => {
         clearTimeout(timerId) 
-        timerId = setTimeout(otaceni, 2000)    
+        setTimeout(otaceni, 2000)    
         }
      
+
+
+/*
+Problém ve kódu je v tom, že aplikuješ atribut disabled na tlačítko, když je nalezen odpovídající prvek. Atribut disabled prvek deaktivuje, 
+což znamená, že na něj nelze znovu kliknout ani zpracovat událost kliknutí. Místo toho můžeš přidat třídu, která bude blokovat opakovaná kliknutí, 
+ale neaktivuje tlačítko. Skus tak:
+// funkce k určení, zda je prvek mapy spárován nebo ne
+const isPair = (element1, element2) => {
+    return element1.querySelector('img').src === element2.querySelector('img').src;
+};
+// funkce pro uzamčení spárovaných prvků a překlopení zbytku
+const otaceni = () => {
+    if (seznamek.length === 2 && isPair(seznamek[0], seznamek[1])) {
+        seznamek.forEach((item) => {
+            item.classList.remove('otocena');
+            item.removeEventListener('click', selectKarticka); // odeberte obslužnou rutinu události click
+        });
+    } else {
+        seznamek.forEach((item) => {
+            item.classList.add('otocena');
+        });
+    }
+}; */
